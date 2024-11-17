@@ -3,10 +3,7 @@ import { FaCircleUser, FaUserDoctor } from 'react-icons/fa6'
 import { GrMoney } from 'react-icons/gr'
 import { SlCalender } from 'react-icons/sl'
 import IncomeCard from '../../Components/Dashboard/IncomeCard'
-import IncomeOverView from '../../Components/Dashboard/IncomeOverView'
-import AppointmentsOverview from '../../Components/Dashboard/AppointmentsOverview'
 import { Link } from 'react-router-dom'
-import NewAppointment from '../../Components/Dashboard/NewAppointment'
 import { useGetDashboardDataQuery } from '../../Redux/Apis/dashboardApi'
 import Loading from '../../Components/Shared/Loading'
 
@@ -50,10 +47,10 @@ const DashboardHome = () => {
             </div>
             <div className='grid-2 gap-3 mt-5'>
                 <Suspense fallback={''}>
-                    <IncomeOverView />
+                    {/* <IncomeOverView /> */}
                 </Suspense>
                 <Suspense fallback={''}>
-                    <AppointmentsOverview />
+                    {/* <AppointmentsOverview /> */}
                 </Suspense>
             </div>
             <div className='bg-[var(--bg-white)] p-4 rounded-md mt-5'>
@@ -64,7 +61,7 @@ const DashboardHome = () => {
                     </Link>
                 </div>
                 <Suspense fallback={''}>
-                    <NewAppointment />
+                    {/* <NewAppointment /> */}
                 </Suspense>
             </div>
         </div>
