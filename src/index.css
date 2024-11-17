@@ -1,0 +1,211 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --text: #363636;
+  --color-blue: #0065DD;
+  --color-red: #E00D00;
+  --color-green: #01B233;
+  --color-white: #FFFFFF;
+  --color-gray: #6D6D6D;
+  --primary-bg: #242424;
+  --bg-gray-20: #E6E6E6;
+  --bg-white-20: #f2f2f2;
+  --bg-black: #050505;
+  --bg-white: #FEFEFE;
+
+}
+
+* {
+  font-family: "Poppins";
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+#doctor_table::-webkit-scrollbar {
+  display: block;
+  background: var(--text);
+  height: 4px;
+  border-radius: 3px;
+}
+
+body {
+  background: #363636;
+}
+
+.card-shadow {
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+@layer utilities {
+  .start-start {
+    @apply flex justify-start items-start
+  }
+
+  .start-center {
+    @apply flex justify-start items-center
+  }
+
+  .center-center {
+    @apply flex justify-center items-center
+  }
+
+  .between-center {
+    @apply flex justify-between items-center
+  }
+
+  .end-center {
+    @apply flex justify-end items-center
+  }
+
+  .grid-4 {
+    @apply md:grid md:grid-cols-2 flex flex-col justify-start items-start md:items-center lg:grid-cols-3 xl:grid-cols-4 gap-4
+  }
+
+  .grid-3 {
+    @apply md:grid md:grid-cols-2 flex flex-col justify-start items-start md:items-center lg:grid-cols-3 gap-4
+  }
+
+  .grid-2 {
+    @apply md:grid md:grid-cols-2 flex flex-col justify-start items-start md:items-center gap-4
+  }
+
+  .grid-3 {
+    @apply md:grid md:grid-cols-2 xl:grid-cols-3 flex flex-col justify-start items-start md:items-center gap-4
+  }
+
+  .grid-2-start {
+    @apply md:grid md:grid-cols-2 flex flex-col justify-start items-start gap-4
+  }
+
+  .button-black {
+    @apply px-8 py-3 rounded-md flex justify-center items-center w-fit gap-2 bg-[var(--bg-black)] text-[var(--color-white)] border border-[var(--bg-black)] hover:scale-105 transition-all active:scale-95 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:active:scale-100 card-shadow
+  }
+
+  .button-white {
+    @apply px-8 py-3 rounded-md flex justify-center items-center w-fit gap-2 bg-[var(--color-white)] text-[var(--bg-black)] border border-[var(--bg-black)] hover:scale-105 transition-all active:scale-95 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:active:scale-100 card-shadow
+  }
+
+  .button-red {
+    @apply px-8 py-3 rounded-md flex justify-center items-center w-fit gap-2 bg-[var(--color-red)] text-[var(--color-white)] border border-[var(--color-red)] hover:scale-105 transition-all active:scale-95 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:active:scale-100 card-shadow
+  }
+
+  .button-green {
+    @apply px-4 py-1 rounded-3xl flex justify-center items-center w-fit gap-2 bg-[var(--color-white)] text-[var(--color-green)] border border-[var(--color-green)] hover:scale-105 transition-all active:scale-95 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:active:scale-100 card-shadow
+  }
+
+  .button-blue {
+    @apply px-4 py-1 rounded-3xl flex justify-center items-center w-fit gap-2 bg-[var(--color-white)] text-[var(--color-blue)] border border-[var(--color-blue)] hover:scale-105 transition-all active:scale-95 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:active:scale-100 card-shadow
+  }
+
+  .heading {
+    @apply text-lg font-semibold leading-5 text-[var(--bg-black)]
+  }
+
+  .page-heading {
+    @apply text-xl font-semibold leading-7 text-[var(--bg-black)]
+  }
+
+  .auth-heading {
+    @apply text-2xl font-semibold leading-7 text-[var(--bg-black)]
+  }
+
+  .input {
+    @apply border border-[var(--color-gray)] placeholder:text-[var(--bg-gray-20)] text-[var(--color-gray)] p-2 text-base
+  }
+
+  .input-label {
+    @apply text-[var(--color-gray)] text-lg
+  }
+
+  .text {
+    @apply text-[var(--text)] text-base
+  }
+
+  .links.active {
+    @apply button-black relative
+  }
+
+  .links:hover {
+    @apply button-black relative
+  }
+
+  .links:hover::after {
+    @apply h-full w-2 bg-[var(--bg-white)] absolute -left-2
+  }
+
+  .links.active::after {
+    @apply h-full w-2 bg-[var(--bg-white)] absolute -left-4
+  }
+}
+
+.links::after {
+  content: '';
+}
+
+.jodit-status-bar {
+  display: none;
+}
+
+
+/* loading states  */
+.loader {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  position: relative;
+  animation: rotate 1s linear infinite
+}
+
+.loader::before,
+.loader::after {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  inset: 0px;
+  border-radius: 50%;
+  border: 5px solid #0373f3;
+  animation: prixClipFix 2s linear infinite;
+}
+
+.loader::after {
+  border-color: #FF3D00;
+  animation: prixClipFix 2s linear infinite, rotate 0.5s linear infinite reverse;
+  inset: 6px;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg)
+  }
+
+  100% {
+    transform: rotate(360deg)
+  }
+}
+
+@keyframes prixClipFix {
+  0% {
+    clip-path: polygon(50% 50%, 0 0, 0 0, 0 0, 0 0, 0 0)
+  }
+
+  25% {
+    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 0, 100% 0, 100% 0)
+  }
+
+  50% {
+    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 100% 100%, 100% 100%)
+  }
+
+  75% {
+    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 100%)
+  }
+
+  100% {
+    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 0)
+  }
+}
