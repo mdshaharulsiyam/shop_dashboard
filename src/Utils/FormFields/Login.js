@@ -1,11 +1,11 @@
 export const LoginFields = [
     {
-        name: 'phone',
-        label: 'phone number with country code',
-        placeholder: '+8801566026301',
+        name: 'email',
+        label: 'Email Address',
+        placeholder: 'siyamoffice0273@gmail.com',
         required: true,
-        message: 'please input your Phone number',
-        type: 'text',
+        message: 'please input your Email Address',
+        type: 'email',
     },
     {
         name: 'password',

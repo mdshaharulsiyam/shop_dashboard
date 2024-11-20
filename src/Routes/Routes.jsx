@@ -12,11 +12,10 @@ import FAQ from "../Pages/Dashboard/FAQ";
 import PrivacyPolicy from "../Pages/Dashboard/PrivacyPolicy";
 import TermsCondition from "../Pages/Dashboard/TermsCondition";
 import AdminRoutes from "../PrivetRoutes/AdminRoutes";
-
 export const Routes = createBrowserRouter([
     {
         path: '/',
-        element: <Dashboard />,
+        element: <AdminRoutes><Dashboard /></AdminRoutes>,
         children: [
             {
                 path: '/',

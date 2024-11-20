@@ -85,67 +85,96 @@ import { Form, Input, Button, Popover } from "antd";
 import Picker from "@emoji-mart/react"; // Emoji Mart Picker
 import { RxCross2 } from "react-icons/rx";
 import { TbCopyCheckFilled } from "react-icons/tb";
+import { useAddCategoryMutation, useUpdateCategoryMutation } from "../../Redux/Apis/categoryApi";
+import toast from "react-hot-toast";
 
-const Category_Form = () => {
-    const [emoji, setEmoji] = useState(""); // To store the selected emoji
-    const [isPickerVisible, setIsPickerVisible] = useState(false); // To toggle emoji picker visibility
+const Category_Form = ({ closeModal, initialData = null }) => {
+    const [addCategory, { isLoading: isAdding }] = useAddCategoryMutation();
+    const [updateCategory, { isLoading: isUpdating }] = useUpdateCategoryMutation();
+    const [emoji, setEmoji] = useState(initialData?.img || ""); // Default emoji
+    const [isPickerVisible, setIsPickerVisible] = useState(false);
 
     const handleEmojiSelect = (emoji) => {
         if (emoji?.native) {
-            setEmoji(emoji.native); // Set the emoji as the input value
+            setEmoji(emoji.native);
         }
     };
 
-    const handleVisibleChange = (visible) => {
-        setIsPickerVisible(visible); // Safely toggle the visibility
-    };
-
-    const handleSubmit = (values) => {
-        console.log("Form Values:", { ...values, emoji });
+    const handleSubmit = async (values) => {
+        toast.dismiss();
+        if (!emoji) return toast.error('Please Select a Category Emoji')
+        const payload = { name: values?.name, img: emoji };
+        if (initialData) {
+            // Update
+            updateCategory({ id: initialData._id, data: payload })
+                .unwrap()
+                .then(() => {
+                    toast.success("Category updated successfully");
+                    closeModal(); // Close modal on success
+                })
+                .catch((err) => {
+                    toast.error(err?.data?.message || "Failed to save category");
+                });
+        } else {
+            // Create
+            addCategory(payload)
+                .unwrap()
+                .then(() => {
+                    toast.success("Category created successfully");
+                    closeModal(); // Close modal on success
+                })
+                .catch((err) => {
+                    toast.error(err?.data?.message || "Failed to save category");
+                });
+        }
     };
 
     return (
         <div className="max-w-[600px] mx-auto">
             <p className="heading text-center my-4 capitalize text-xl font-bold">
-                Add New Category
+                {initialData ? "Edit Category" : "Add New Category"}
             </p>
             <Form
                 layout="vertical"
                 onFinish={handleSubmit}
-                initialValues={{ categoryName: "", emoji }}
+                initialValues={{ name: initialData?.name || "", emoji: emoji }}
             >
                 {/* Category Name Field */}
                 <Form.Item
                     label="Category Name"
-                    name="categoryName"
+                    name="name"
                     rules={[{ required: true, message: "Please enter the category name" }]}
                 >
-                    <Input placeholder="Enter category name" />
+                    <Input className="input " placeholder="Enter category name" />
                 </Form.Item>
 
-                {/* Emoji Field with Popover */}
+                {/* Emoji Picker */}
                 <Form.Item
                     label="Select Emoji"
                     name="emoji"
-                    rules={[{ required: true, message: "Please select an emoji" }]}
+                    rules={[{ required: false }]}
                 >
                     <Popover
                         content={
                             isPickerVisible && (
-                                <div onClick={(e) => e.stopPropagation() /* Prevent closing on interactions */}>
+                                <div onClick={(e) => e.stopPropagation()}>
                                     <Picker onEmojiSelect={handleEmojiSelect} theme="light" />
                                 </div>
                             )
                         }
                         visible={isPickerVisible}
-                        onVisibleChange={handleVisibleChange}
+                        onVisibleChange={setIsPickerVisible}
                     >
                         <Input
                             placeholder="Select an emoji"
                             value={emoji}
                             readOnly
                             suffix={
-                                <Button onClick={() => setIsPickerVisible(true)} type="text" className="flex items-center justify-center">
+                                <Button
+                                    onClick={() => setIsPickerVisible(true)}
+                                    type="text"
+                                    className="flex items-center justify-center"
+                                >
                                     😊
                                 </Button>
                             }
@@ -155,12 +184,16 @@ const Category_Form = () => {
 
                 {/* Buttons */}
                 <div className="flex justify-center gap-4 mt-6">
-                    <button className="button-black" type="submit">
+                    <button
+                        className="button-black"
+                        type="submit"
+                        disabled={isAdding || isUpdating}
+                    >
                         <TbCopyCheckFilled size={20} className="mr-2" />
                         Save
                     </button>
                     <button
-                        onClick={() => console.log("Cancel Clicked")}
+                        onClick={closeModal}
                         className="button-red"
                         type="button"
                     >
@@ -174,6 +207,3 @@ const Category_Form = () => {
 };
 
 export default Category_Form;
-
-
-

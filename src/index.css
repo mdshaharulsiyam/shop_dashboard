@@ -177,7 +177,6 @@ body {
   animation: prixClipFix 2s linear infinite, rotate 0.5s linear infinite reverse;
   inset: 6px;
 }
-
 @keyframes rotate {
   0% {
     transform: rotate(0deg)
