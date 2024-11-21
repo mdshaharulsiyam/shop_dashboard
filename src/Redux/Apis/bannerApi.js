@@ -17,7 +17,7 @@ const categoryApi = baseApi.injectEndpoints({
         updateBanner: builder.mutation({
             query: ({ id, data }) => {
                 return {
-                    url: `banner/update-banner/${id}`,
+                    url: `banner/update/${id}`,
                     method: 'PATCH',
                     body: data,
                 }
@@ -28,8 +28,8 @@ const categoryApi = baseApi.injectEndpoints({
         updateBannerStatus: builder.mutation({
             query: (id) => {
                 return {
-                    url: `banner/activate-deactivate-banner/${id}`,
-                    method: 'POST',
+                    url: `banner/toggle-status/${id}`,
+                    method: 'PATCH',
                 }
             },
             invalidatesTags: ['banner']

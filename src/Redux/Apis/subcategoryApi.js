@@ -4,14 +4,14 @@ const subcategoryApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         // Fetch all subcategories with optional pagination
         getSubcategories: builder.query({
-            query: (page = 1) => `subcategory?page=${page}`,
+            query: (page = 1) => `sub-category?page=${page}`,
             providesTags: ['Subcategory'],
         }),
 
         // Add a new subcategory
         addSubcategory: builder.mutation({
             query: (data) => ({
-                url: "subcategory/create",
+                url: "sub-category/create",
                 method: "POST",
                 body: data,
             }),
@@ -21,7 +21,7 @@ const subcategoryApi = baseApi.injectEndpoints({
         // Update an existing subcategory
         updateSubcategory: builder.mutation({
             query: ({ id, data }) => ({
-                url: `subcategory/update/${id}`,
+                url: `sub-category/update/${id}`,
                 method: "PATCH",
                 body: data,
             }),
@@ -31,7 +31,7 @@ const subcategoryApi = baseApi.injectEndpoints({
         // Delete a subcategory
         deleteSubcategory: builder.mutation({
             query: (id) => ({
-                url: `subcategory/delete/${id}`,
+                url: `sub-category/delete/${id}`,
                 method: "DELETE",
             }),
             invalidatesTags: ['Subcategory'],
