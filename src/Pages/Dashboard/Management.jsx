@@ -38,17 +38,18 @@ const Management = () => {
                         Category
                     </button>
                     <button
-                        onClick={() => setActiveTab("banner")}
-                        className={`${activeTab === "banner" ? "button-black" : "button-white"}`}
-                    >
-                        Banner
-                    </button>
-                    <button
                         onClick={() => setActiveTab("subcategory")}
                         className={`${activeTab === "subcategory" ? "button-black" : "button-white"}`}
                     >
                         Subcategory
                     </button>
+                    <button
+                        onClick={() => setActiveTab("banner")}
+                        className={`${activeTab === "banner" ? "button-black" : "button-white"}`}
+                    >
+                        Banner
+                    </button>
+
                 </div>
                 <button
                     onClick={() => openModal(false)} // Add operation

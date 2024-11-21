@@ -29,7 +29,7 @@ const Sidebar = () => {
     }, [ref, location.pathname])
     return (
         <div className='px-4 pb-10 flex justify-start flex-col gap-3 sidebar'>
-            <p className='text-6xl text-center text-[var(--bg-white)] my-4 font-bold'>ilera</p>
+            <p className='text-6xl text-center text-[var(--bg-white)] my-4 font-bold'></p>
             {SidebarLink?.map((item) => (
                 <NavLink onClick={() => { setOpen(false); set_setting_active(false) }} to={item?.path}
                     style={{

@@ -6,7 +6,7 @@ const categoryApi = baseApi.injectEndpoints({
         addBanner: builder.mutation({
             query: (data) => {
                 return {
-                    url: 'banner/create-banner',
+                    url: 'banner/create',
                     method: 'POST',
                     body: data,
                 }
@@ -38,7 +38,7 @@ const categoryApi = baseApi.injectEndpoints({
         getBanner: builder.query({
             query: (page) => {
                 return {
-                    url: `banner/get-banners?page=${page || 1}&order=asc&sort=order`,
+                    url: `banner/all?page=${page || 1}&order=asc&sort=order`,
                     method: 'GET',
                 }
             },
