@@ -12,6 +12,7 @@ import FAQ from "../Pages/Dashboard/FAQ";
 import PrivacyPolicy from "../Pages/Dashboard/PrivacyPolicy";
 import TermsCondition from "../Pages/Dashboard/TermsCondition";
 import AdminRoutes from "../PrivetRoutes/AdminRoutes";
+import Vendors from "../Pages/Dashboard/Vendors";
 export const Routes = createBrowserRouter([
     {
         path: '/',
@@ -24,6 +25,10 @@ export const Routes = createBrowserRouter([
             {
                 path: '/management',
                 element: <Management />
+            },
+            {
+                path: '/vendors',
+                element: <Vendors />
             },
             {
                 path: '/profile',

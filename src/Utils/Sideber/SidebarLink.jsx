@@ -1,3 +1,4 @@
+import { CiShop } from "react-icons/ci";
 import { FaUserDoctor } from "react-icons/fa6";
 import { HiArrowTrendingUp } from "react-icons/hi2";
 import { LuCalendarClock, LuUser2 } from "react-icons/lu";
@@ -10,9 +11,9 @@ export const SidebarLink = [
         icon: <LuCalendarClock size={24} />,
     },
     {
-        path: '/appointment',
-        label: 'Appointment',
-        icon: <LuCalendarClock size={24} />,
+        path: '/vendors',
+        label: 'Vendors',
+        icon: <CiShop size={24} />,
     },
     {
         path: '/transactions',

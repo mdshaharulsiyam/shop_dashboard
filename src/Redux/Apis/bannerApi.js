@@ -49,7 +49,7 @@ const categoryApi = baseApi.injectEndpoints({
         deleteBanner: builder.mutation({
             query: (id) => {
                 return {
-                    url: `banner/delete-banner/${id}`,
+                    url: `banner/delete/${id}`,
                     method: 'DELETE',
                 }
             },

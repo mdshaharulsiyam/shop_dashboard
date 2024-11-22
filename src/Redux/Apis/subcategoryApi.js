@@ -4,7 +4,7 @@ const subcategoryApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         // Fetch all subcategories with optional pagination
         getSubcategories: builder.query({
-            query: (page = 1) => `sub-category?page=${page}`,
+            query: (page = 1) => `sub-category/all?page=${page}`,
             providesTags: ['Subcategory'],
         }),
 
@@ -30,9 +30,10 @@ const subcategoryApi = baseApi.injectEndpoints({
 
         // Delete a subcategory
         deleteSubcategory: builder.mutation({
-            query: (id) => ({
+            query: ({ id, categoryId }) => ({
                 url: `sub-category/delete/${id}`,
                 method: "DELETE",
+                body: { categoryId }
             }),
             invalidatesTags: ['Subcategory'],
         }),

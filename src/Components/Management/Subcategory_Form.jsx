@@ -3,14 +3,14 @@ import { Form, Input, Button, Popover, Select } from "antd";
 import Picker from "@emoji-mart/react";
 import { TbCopyCheckFilled } from "react-icons/tb";
 import { RxCross2 } from "react-icons/rx";
-import { useAddSubcategoryMutation, useUpdateSubcategoryMutation } from "../../Redux/Apis/subcategoryApi"; 
+import { useAddSubcategoryMutation, useUpdateSubcategoryMutation } from "../../Redux/Apis/subcategoryApi";
 import { useGetCategoryQuery } from "../../Redux/Apis/categoryApi"; // Fetch categories
 import toast from "react-hot-toast";
 
 const Subcategory_Form = ({ closeModal, initialData = null }) => {
     const [addSubcategory, { isLoading: isAdding }] = useAddSubcategoryMutation();
     const [updateSubcategory, { isLoading: isUpdating }] = useUpdateSubcategoryMutation();
-    const { data: categories } = useGetCategoryQuery(); // Fetch categories for selection
+    const { data: categories } = useGetCategoryQuery();
 
     const [emoji, setEmoji] = useState(initialData?.img || "");
     const [isPickerVisible, setIsPickerVisible] = useState(false);
@@ -58,7 +58,7 @@ const Subcategory_Form = ({ closeModal, initialData = null }) => {
                 onFinish={handleSubmit}
                 initialValues={{
                     name: initialData?.name || "",
-                    categoryId: initialData?.categoryId || "",
+                    categoryId: initialData?.category?._id || "",
                 }}
             >
                 {/* Subcategory Name */}
@@ -67,7 +67,7 @@ const Subcategory_Form = ({ closeModal, initialData = null }) => {
                     name="name"
                     rules={[{ required: true, message: "Please enter the subcategory name" }]}
                 >
-                    <Input placeholder="Enter subcategory name" />
+                    <Input className="h-[42px]" placeholder="Enter subcategory name" />
                 </Form.Item>
 
                 {/* Parent Category */}
@@ -76,9 +76,9 @@ const Subcategory_Form = ({ closeModal, initialData = null }) => {
                     name="categoryId"
                     rules={[{ required: true, message: "Please select a category" }]}
                 >
-                    <Select
+                    <Select className="h-[42px]"
                         placeholder="Select a category"
-                        options={categories?.map((category) => ({
+                        options={categories?.data?.map((category) => ({
                             label: category.name,
                             value: category._id,
                         }))}
