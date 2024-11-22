@@ -49,6 +49,13 @@ const Coupon_Form = ({ closeModal, initialData }) => {
             >
                 <InputNumber min={0} max={100} style={{ width: "100%" }} />
             </Form.Item>
+            <Form.Item
+                name="totalAvailable"
+                label="Total Count"
+                rules={[{ required: true, message: "Please enter the discount percentage" }]}
+            >
+                <InputNumber min={0} style={{ width: "100%" }} />
+            </Form.Item>
             <div className="flex justify-end gap-4">
                 <Button onClick={closeModal}>Cancel</Button>
                 <Button type="primary" htmlType="submit">
