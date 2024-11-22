@@ -1,5 +1,6 @@
 import { CiShop } from "react-icons/ci";
-import { FaUserDoctor } from "react-icons/fa6";
+import { FaShippingFast } from "react-icons/fa";
+import { FaBasketShopping, FaUser, FaUserDoctor, FaUsers } from "react-icons/fa6";
 import { HiArrowTrendingUp } from "react-icons/hi2";
 import { LuCalendarClock, LuUser2 } from "react-icons/lu";
 import { MdDashboard } from "react-icons/md";
@@ -16,19 +17,9 @@ export const SidebarLink = [
         icon: <CiShop size={24} />,
     },
     {
-        path: '/transactions',
-        label: 'Transactions',
-        icon: <HiArrowTrendingUp size={24} />,
-    },
-    {
-        path: '/patients',
-        label: 'Patients',
-        icon: <LuUser2 size={24} />,
-    },
-    {
-        path: '/doctors',
-        label: 'Doctors',
-        icon: <FaUserDoctor size={24} />,
+        path: '/users',
+        label: 'User',
+        icon: <FaUsers size={24} />,
     },
     {
         path: '/management',
@@ -36,6 +27,7 @@ export const SidebarLink = [
         icon: <MdDashboard size={24} />,
     },
 ]
+
 
 export const SettingLinks = [
     {
@@ -53,5 +45,27 @@ export const SettingLinks = [
     {
         path: '/terms-&-condition',
         label: 'Terms & Condition',
+    },
+]
+export const VendorSidebarLink = [
+    {
+        path: '/vendor/dashboard',
+        label: 'Dashboard',
+        icon: <LuCalendarClock size={24} />,
+    },
+    {
+        path: '/vendor/products',
+        label: 'Products',
+        icon: <FaBasketShopping size={24} />,
+    },
+    {
+        path: '/vendor/orders',
+        label: 'Orders',
+        icon: <FaShippingFast size={24} />,
+    },
+    {
+        path: '/vendor/shop-profile',
+        label: 'Profile',
+        icon: <FaUser size={24} />,
     },
 ]

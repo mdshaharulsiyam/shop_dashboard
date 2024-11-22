@@ -13,6 +13,10 @@ import PrivacyPolicy from "../Pages/Dashboard/PrivacyPolicy";
 import TermsCondition from "../Pages/Dashboard/TermsCondition";
 import AdminRoutes from "../PrivetRoutes/AdminRoutes";
 import Vendors from "../Pages/Dashboard/Vendors";
+import Users from "../Pages/Dashboard/Users";
+import VendorRoutes from "../PrivetRoutes/VendorRoutes";
+import VendorHome from "../Components/VendorDashboard/VendorHome";
+import Products from "../Pages/Shared/Products";
 export const Routes = createBrowserRouter([
     {
         path: '/',
@@ -29,6 +33,10 @@ export const Routes = createBrowserRouter([
             {
                 path: '/vendors',
                 element: <Vendors />
+            },
+            {
+                path: '/users',
+                element: <Users />
             },
             {
                 path: '/profile',
@@ -49,6 +57,20 @@ export const Routes = createBrowserRouter([
             {
                 path: '/terms-&-condition',
                 element: <TermsCondition />
+            },
+        ]
+    },
+    {
+        path: '/vendor',
+        element: <VendorRoutes> <Dashboard /></VendorRoutes>,
+        children: [
+            {
+                path: '/vendor/dashboard',
+                element: <VendorHome />
+            },
+            {
+                path: '/vendor/products',
+                element: <Products />
             },
         ]
     },

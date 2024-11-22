@@ -3,7 +3,7 @@ import { useGetProfileQuery } from '../Redux/Apis/authApi'
 import Loading from '../Components/Shared/Loading'
 import { Navigate, useLocation } from 'react-router-dom'
 
-const AdminRoutes = ({ children }) => {
+const VendorRoutes = ({ children }) => {
     const location = useLocation()
     if (!localStorage.getItem('token')) return <Navigate to={`/login`} state={location.pathname} ></Navigate>
     const { data, isLoading, isError, error, isFetching } = useGetProfileQuery()
@@ -12,12 +12,12 @@ const AdminRoutes = ({ children }) => {
         return <Navigate to={`/login`} state={location.pathname} ></Navigate>
     }
     if (data?.data?.role == 'VENDOR') {
-        return <Navigate to={`/vendor`}  ></Navigate>
+        return children
     }
     if (data?.data?.role == 'ADMIN' || data?.data?.role == 'SUPER_ADMIN') {
-        return children
+        return <Navigate to={`/`}  ></Navigate>
     }
     return <Navigate to={`/login`} state={location.pathname} ></Navigate>
 }
 
-export default AdminRoutes
+export default VendorRoutes

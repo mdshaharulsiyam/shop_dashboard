@@ -12,7 +12,7 @@ const Login = () => {
     const { data, isLoading: fetchingProfile, isError, error } = useGetProfileQuery()
     const navigate = useNavigate()
     const location = useLocation()
-    if (localStorage.getItem('token') && (!fetchingProfile && data?.data?.role === 'ADMIN')) {
+    if (localStorage.getItem('token') && (!fetchingProfile && data?.data?.role !== 'USER')) {
         navigate(location?.state || '/')
     }
     //states
@@ -22,13 +22,13 @@ const Login = () => {
     // handler
     const onSubmitLoginForm = (value) => {
         LoginUser(value).unwrap().then((res) => {
-            if (res.data?.role !== 'ADMIN') {
+            if (res.data?.role == 'USER') {
                 return toast.error('You are not authorized to access this page.')
             }
             localStorage.setItem('token', JSON.stringify(res?.token))
             toast.success(res.data?.message || 'logged in successfully')
             window.location.reload()
-            return navigate(location?.state || '/')
+            return window.location.href = location?.state || '/'
         })
             .catch((err) => toast.error(err.data.message || 'something went wrong'))
     }

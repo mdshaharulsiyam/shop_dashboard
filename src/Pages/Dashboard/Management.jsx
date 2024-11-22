@@ -4,13 +4,15 @@ import { TiPlus } from "react-icons/ti";
 import CategoryTable from "../../Components/Management/CategoryTable";
 import BannerTable from "../../Components/Management/BannerTable";
 import SubcategoryTable from "../../Components/Management/SubcategoryTable"; // New Subcategory Table
+import CouponTable from "../../Components/Management/CouponTable"; // New Coupon Table
 import { Modal } from "antd";
 import Category_Form from "../../Components/Management/Category_Form";
 import Subcategory_Form from "../../Components/Management/Subcategory_Form"; // New Subcategory Form
 import Banner_Form from "../../Components/Management/Banner_Form";
+import Coupon_Form from "../../Components/Management/Coupon_Form"; // New Coupon Form
 
 const Management = () => {
-    const [activeTab, setActiveTab] = useState("category"); // "category", "banner", or "subcategory"
+    const [activeTab, setActiveTab] = useState("category"); // "category", "banner", "subcategory", or "coupon"
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedData, setSelectedData] = useState(null); // Selected data for edit
     const [action, setAction] = useState("add"); // Add or edit action
@@ -49,13 +51,18 @@ const Management = () => {
                     >
                         Banner
                     </button>
-
+                    <button
+                        onClick={() => setActiveTab("coupon")}
+                        className={`${activeTab === "coupon" ? "button-black" : "button-white"}`}
+                    >
+                        Coupon
+                    </button>
                 </div>
                 <button
                     onClick={() => openModal(false)} // Add operation
                     className="button-black"
                 >
-                    <TiPlus size={24} /> Add {activeTab === "category" ? "Category" : activeTab === "banner" ? "Banner" : "Subcategory"}
+                    <TiPlus size={24} /> Add {activeTab === "category" ? "Category" : activeTab === "banner" ? "Banner" : activeTab === "subcategory" ? "Subcategory" : "Coupon"}
                 </button>
             </div>
 
@@ -74,6 +81,11 @@ const Management = () => {
                     <SubcategoryTable onEdit={(data) => openModal(true, data)} />
                 </Suspense>
             )}
+            {activeTab === "coupon" && (
+                <Suspense fallback={""}>
+                    <CouponTable onEdit={(data) => openModal(true, data)} />
+                </Suspense>
+            )}
 
             <Modal
                 open={modalVisible}
@@ -90,6 +102,9 @@ const Management = () => {
                 )}
                 {activeTab === "subcategory" && (
                     <Subcategory_Form closeModal={closeModal} initialData={selectedData} />
+                )}
+                {activeTab === "coupon" && (
+                    <Coupon_Form closeModal={closeModal} initialData={selectedData} />
                 )}
             </Modal>
         </div>
