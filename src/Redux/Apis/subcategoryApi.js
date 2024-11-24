@@ -4,7 +4,12 @@ const subcategoryApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         // Fetch all subcategories with optional pagination
         getSubcategories: builder.query({
-            query: (page = 1) => `sub-category/all?page=${page}`,
+            query: ({ page = 1, category }) => {
+                return {
+                    url: `sub-category/all`,
+                    params: { page, category }
+                }
+            },
             providesTags: ['Subcategory'],
         }),
 

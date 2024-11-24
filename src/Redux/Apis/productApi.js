@@ -4,20 +4,32 @@ const productApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         // Fetch all products with pagination
         getAllProducts: builder.query({
-            query: ({ page = 1, limit = 10 } = {}) => ({
-                url: `product/all?page=${page}&limit=${limit}`,
-                method: "GET",
-            }),
+            query: ({ page = 1, limit = 10, search = "", isFeatured, isApproved } = {}) => {
+                const params = new URLSearchParams();
+
+                params.append("page", page);
+                params.append("limit", limit);
+
+                if (search) params.append("search", search);
+                if (isFeatured !== undefined) params.append("isFeatured", isFeatured);
+                if (isApproved !== undefined) params.append("isApproved", isApproved);
+
+                return {
+                    url: `product/all?${params.toString()}`,
+                    method: "GET",
+                };
+            },
             providesTags: ["Product"],
         }),
 
-        // Fetch a single product by ID
-        getProductById: builder.query({
+
+        // Fetch product details by ID
+        getProductDetails: builder.query({
             query: (id) => ({
-                url: `product/${id}`,
+                url: `product/details/${id}`,
                 method: "GET",
             }),
-            providesTags: (result, error, id) => [{ type: "Product", id }],
+            providesTags: ['Product'],
         }),
 
         // Create a new product
@@ -33,18 +45,37 @@ const productApi = baseApi.injectEndpoints({
         // Update an existing product
         updateProduct: builder.mutation({
             query: ({ id, updatedData }) => ({
-                url: `product/${id}`,
-                method: "PUT",
+                url: `product/update/${id}`,
+                method: "PATCH",
                 body: updatedData,
+                // For file upload, use FormData
             }),
-            invalidatesTags: (result, error, { id }) => [{ type: "Product", id }],
+            invalidatesTags: ['Product'],
         }),
 
         // Delete a product
         deleteProduct: builder.mutation({
             query: (id) => ({
-                url: `product/${id}`,
+                url: `product/delete/${id}`,
                 method: "DELETE",
+            }),
+            invalidatesTags: ["Product"],
+        }),
+
+        // Approve a product
+        approveProduct: builder.mutation({
+            query: (id) => ({
+                url: `product/approve/${id}`,
+                method: "PATCH",
+            }),
+            invalidatesTags: ["Product"],
+        }),
+
+        // Feature a product
+        featureProduct: builder.mutation({
+            query: (id) => ({
+                url: `product/feature/${id}`,
+                method: "PATCH",
             }),
             invalidatesTags: ["Product"],
         }),
@@ -53,10 +84,12 @@ const productApi = baseApi.injectEndpoints({
 
 export const {
     useGetAllProductsQuery,
-    useGetProductByIdQuery,
+    useGetProductDetailsQuery,
     useCreateProductMutation,
     useUpdateProductMutation,
     useDeleteProductMutation,
+    useApproveProductMutation,
+    useFeatureProductMutation,
 } = productApi;
 
 export default productApi;

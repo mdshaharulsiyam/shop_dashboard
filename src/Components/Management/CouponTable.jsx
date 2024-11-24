@@ -18,14 +18,19 @@ const CouponTable = ({ onEdit }) => {
 
     const columns = [
         {
-            title: "Coupon Code",
-            dataIndex: "code",
-            key: "code",
+            title: "Name",
+            dataIndex: "name",
+            key: "name",
         },
         {
             title: "Discount (%)",
-            dataIndex: "discount",
-            key: "discount",
+            dataIndex: "percentage",
+            key: "percentage",
+        },
+        {
+            title: "Total Available",
+            dataIndex: "totalAvailable",
+            key: "totalAvailable",
         },
         {
             title: "Actions",
@@ -47,8 +52,7 @@ const CouponTable = ({ onEdit }) => {
             ),
         },
     ];
-
-    return <Table rowKey="_id" dataSource={coupons?.data} columns={columns} loading={isLoading} />;
+    return <Table rowKey="_id" dataSource={coupons?.data || []} columns={columns} loading={isLoading} />;
 };
 
 export default CouponTable;

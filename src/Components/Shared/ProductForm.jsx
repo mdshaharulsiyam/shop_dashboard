@@ -6,16 +6,21 @@ import toast from "react-hot-toast";
 import { useGetCategoryQuery } from "../../Redux/Apis/categoryApi";
 import { useGetSubcategoriesQuery } from "../../Redux/Apis/subcategoryApi";
 import { useCreateProductMutation, useUpdateProductMutation } from "../../Redux/Apis/productApi";
+import { useGetCouponsQuery } from "../../Redux/Apis/couponApi";
 
 const { Option } = Select;
 
 const ProductForm = ({ visible, onClose, product }) => {
+    const [deletedImages, setDeletedImages] = useState([]);
+
+    const [categoryId, setCategory] = useState(null)
     const [form] = Form.useForm();
     const [createProduct] = useCreateProductMutation();
     const [updateProduct] = useUpdateProductMutation();
 
     const { data: category } = useGetCategoryQuery();
-    const { data: subCategory } = useGetSubcategoriesQuery();
+    const { data: coupon } = useGetCouponsQuery();
+    const { data: subCategory } = useGetSubcategoriesQuery({ category: categoryId || "" });
 
     const [description, setDescription] = useState(product?.description || "");
     const [fileList, setFileList] = useState(
@@ -25,19 +30,19 @@ const ProductForm = ({ visible, onClose, product }) => {
             url,
         })) || []
     );
+
     const [couponAvailable, setCouponAvailable] = useState(product?.coupon?.available || false);
 
     useEffect(() => {
         if (product) {
-            form.setFieldsValue(product);
+            form.setFieldsValue({ ...product, category: product?.category?._id, subCategory: product?.subCategory?._id });
             setDescription(product.description || "");
-            setFileList(
-                product.img?.map((url, index) => ({
-                    uid: index,
-                    name: `image-${index}`,
-                    url,
-                })) || []
-            );
+            const existingFiles = product.img?.map((url, index) => ({
+                uid: `existing-${index}`,
+                name: `image-${index}`,
+                url,
+            })) || [];
+            setFileList(existingFiles);
             setCouponAvailable(product?.coupon?.available || false);
         } else {
             form.resetFields();
@@ -48,29 +53,43 @@ const ProductForm = ({ visible, onClose, product }) => {
     }, [product, form]);
 
     const handleFinish = async (values) => {
+        const retainedImages = fileList.filter((file) => file.url).map((file) => file.url)
         try {
             const payload = {
                 ...values,
                 description,
-                img: fileList.map((file) => file.url || file.response?.url),
+                retainedImages: JSON.stringify(retainedImages),
+                deletedImages: JSON.stringify(deletedImages),
             };
-
-            if (payload.img.length > 4) {
-                toast.error("You can upload a maximum of 4 images.");
-                return;
-            }
-
+            const formData = new FormData()
+            Object.keys(payload).map(key => {
+                formData.append(key, payload[key])
+            })
             if (product) {
+
                 // Update product
-                await updateProduct({ id: product._id, updatedData: payload }).unwrap();
+                if (fileList) {
+                    fileList
+                        .filter((file) => !file.url)
+                        .forEach((file) => {
+                            formData.append("img", file.originFileObj);
+                        });
+                }
+                await updateProduct({ id: product._id, updatedData: formData }).unwrap();
                 toast.success("Product updated successfully");
             } else {
-                // Create product
-                await createProduct(payload).unwrap();
+                if (fileList && fileList.length < 0) {
+                    return toast.error('Please Select image')
+                }
+                fileList.map(item => {
+                    formData.append('img', item?.originFileObj)
+                })
+                await createProduct(formData).unwrap();
                 toast.success("Product created successfully");
             }
             onClose();
         } catch (error) {
+            console.log(error)
             toast.error("Failed to save product");
         }
     };
@@ -81,6 +100,12 @@ const ProductForm = ({ visible, onClose, product }) => {
         } else {
             toast.error("You can upload a maximum of 4 images.");
         }
+    };
+    const handleRemove = (file) => {
+        if (file.url) {
+            setDeletedImages((prev) => [...prev, file.url]);
+        }
+        setFileList((prev) => prev.filter((item) => item.uid !== file.uid));
     };
 
     return (
@@ -120,7 +145,7 @@ const ProductForm = ({ visible, onClose, product }) => {
                         label={<span style={{ color: "#555" }}>Price</span>}
                         rules={[{ required: true, message: "Please enter the product price" }]}
                     >
-                        <InputNumber min={0} style={{ width: "100%", height: 42 }} />
+                        <InputNumber type="number" min={0} style={{ width: "100%", height: 42 }} />
                     </Form.Item>
 
                     {/* Discount */}
@@ -128,7 +153,7 @@ const ProductForm = ({ visible, onClose, product }) => {
                         name="discount"
                         label={<span style={{ color: "#555" }}>Discount (%)</span>}
                     >
-                        <InputNumber min={0} max={100} style={{ width: "100%", height: 42 }} />
+                        <InputNumber type="number" min={0} max={100} style={{ width: "100%", height: 42 }} />
                     </Form.Item>
 
                     {/* Stock */}
@@ -137,7 +162,7 @@ const ProductForm = ({ visible, onClose, product }) => {
                         label={<span style={{ color: "#555" }}>Stock</span>}
                         rules={[{ required: true, message: "Please enter the stock quantity" }]}
                     >
-                        <InputNumber min={0} style={{ width: "100%", height: 42 }} />
+                        <InputNumber type="number" min={0} style={{ width: "100%", height: 42 }} />
                     </Form.Item>
 
                     {/* Category */}
@@ -146,7 +171,7 @@ const ProductForm = ({ visible, onClose, product }) => {
                         label={<span style={{ color: "#555" }}>Category</span>}
                         rules={[{ required: true, message: "Please select a category" }]}
                     >
-                        <Select placeholder="Select a category" style={{ height: 42 }}>
+                        <Select onChange={(value) => setCategory(value)} placeholder="Select a category" style={{ height: 42 }}>
                             {category?.data?.map((cat) => (
                                 <Option key={cat._id} value={cat._id}>
                                     {cat.name}
@@ -183,13 +208,15 @@ const ProductForm = ({ visible, onClose, product }) => {
                             <Form.Item
                                 name={["coupon", "couponCode"]}
                                 style={{ margin: 0 }}
-                                rules={[{ required: true, message: "Please enter the coupon code" }]}
+                                rules={[{ required: couponAvailable, message: "Please enter the coupon code" }]}
                             >
-                                <Input 
-                                    style={{ height: 42 }}
-                                    placeholder="Enter Coupon Code"
-                                    disabled={!couponAvailable}
-                                />
+                                <Select disabled={!couponAvailable} placeholder="Select a Coupon" style={{ height: 42 }}>
+                                    {coupon?.data?.map((cop) => (
+                                        <Option key={cop._id} value={cop._id}>
+                                            {cop.name} {cop.percentage}%
+                                        </Option>
+                                    ))}
+                                </Select>
                             </Form.Item>
                         </div>
                     </Form.Item>
@@ -200,8 +227,8 @@ const ProductForm = ({ visible, onClose, product }) => {
                             listType="picture-card"
                             fileList={fileList}
                             onChange={handleUploadChange}
-                            action="https://api.cloudinary.com/v1_1/demo/image/upload" // Replace with your API endpoint
-                            data={{ upload_preset: "your_preset" }} // Replace with your upload preset
+                            // action="https://api.cloudinary.com/v1_1/demo/image/upload" 
+                            // data={{ upload_preset: "your_preset" }}
                             multiple
                         >
                             {fileList.length < 4 && (

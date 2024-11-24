@@ -4,7 +4,7 @@ const couponApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         // Fetch all coupons
         getCoupons: builder.query({
-            query: () => "coupon/all", // Replace with your actual endpoint
+            query: () => "coupon/all?page=1", // Replace with your actual endpoint
             providesTags: ["Coupon"],
         }),
 
@@ -17,7 +17,7 @@ const couponApi = baseApi.injectEndpoints({
         // Create a new coupon
         createCoupon: builder.mutation({
             query: (newCoupon) => ({
-                url: "coupon/create", // Replace with your actual endpoint
+                url: "coupon/create",
                 method: "POST",
                 body: newCoupon,
             }),
@@ -27,17 +27,17 @@ const couponApi = baseApi.injectEndpoints({
         // Update an existing coupon
         updateCoupon: builder.mutation({
             query: ({ id, ...updatedData }) => ({
-                url: `coupon/update/${id}`, // Replace with your actual endpoint
-                method: "PUT",
+                url: `coupon/update/${id}`,
+                method: "PATCH",
                 body: updatedData,
             }),
-            invalidatesTags: (result, error, { id }) => [{ type: "Coupon", id }],
+            invalidatesTags: ['Coupon'],
         }),
 
         // Delete a coupon
         deleteCoupon: builder.mutation({
             query: (id) => ({
-                url: `coupon/delete/${id}`, // Replace with your actual endpoint
+                url: `coupon/delete/${id}`,
                 method: "DELETE",
             }),
             invalidatesTags: ["Coupon"],

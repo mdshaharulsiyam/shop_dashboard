@@ -22,6 +22,11 @@ export const SidebarLink = [
         icon: <FaUsers size={24} />,
     },
     {
+        path: '/products',
+        label: 'Product',
+        icon: <FaBasketShopping size={24} />,
+    },
+    {
         path: '/management',
         label: 'Management',
         icon: <MdDashboard size={24} />,
@@ -47,6 +52,7 @@ export const SettingLinks = [
         label: 'Terms & Condition',
     },
 ]
+
 export const VendorSidebarLink = [
     {
         path: '/vendor/dashboard',
