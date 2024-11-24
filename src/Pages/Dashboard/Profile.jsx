@@ -5,7 +5,6 @@ import { MdEdit } from 'react-icons/md'
 import UpdateProfileForm from '../../Components/Profile/UpdateProfileForm'
 import UpdatePassword from '../../Components/Profile/UpdatePassword'
 import { useGetProfileQuery } from '../../Redux/Apis/authApi'
-import { url } from '../../Utils/BaseUrl'
 const Profile = () => {
     // states  
     const [tab, set_tab] = useState('edit_profile')
@@ -16,7 +15,7 @@ const Profile = () => {
             <PageHeading text={`Profile`} />
             <div className='center-center flex-col gap-6 mt-6 pb-4'>
                 <div className='w-[60%]  mx-auto rounded-md bg-[var(--bg-white)] p-6 center-center flex-col gap-3 relative'>
-                    <img src={image ? URL.createObjectURL(image) : data?.data?.img ? `${url}/${data?.data?.img}` : profileImage} className='w-24 h-24 object-cover rounded-full' alt="profileImage" />
+                    <img src={image ? URL.createObjectURL(image) : data?.data?.img ? `${data?.data?.img}` : profileImage} className='w-24 h-24 object-cover rounded-full' alt="profileImage" />
                     <p className='heading'>{data?.data?.name}</p>
                     {
                         tab === 'edit_profile' && <label htmlFor="profileImage">

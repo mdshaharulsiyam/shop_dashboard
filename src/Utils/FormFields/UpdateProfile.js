@@ -23,22 +23,22 @@ export const UpdateProfileFields = [
         message: 'please input your Phone Number',
         type: 'number',
     },
-    {
-        name: 'date_of_birth',
-        label: 'Date of birth',
-        placeholder: '26-02-2002',
-        required: true,
-        message: 'please input your Date Of Birth',
-        type: 'date',
-    },
+    // {
+    //     name: 'date_of_birth',
+    //     label: 'Date of birth',
+    //     placeholder: '26-02-2002',
+    //     required: true,
+    //     message: 'please input your Date Of Birth',
+    //     type: 'date',
+    // },
 
-    {
-        name: 'location',
-        label: 'Location',
-        placeholder: 'bogra bangladesh',
-        required: true,
-        message: 'please input your Location',
-        type: 'text',
-    },
+    // {
+    //     name: 'location',
+    //     label: 'Location',
+    //     placeholder: 'bogra bangladesh',
+    //     required: true,
+    //     message: 'please input your Location',
+    //     type: 'text',
+    // },
 
 ]

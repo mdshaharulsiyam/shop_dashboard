@@ -18,8 +18,12 @@ const Header = () => {
             <Badge onClick={() => navigate('/notification')} className='bg-[var(--bg-white)] rounded-full cursor-pointer' count={unreadNotifications.length || 0}>
                 <IoIosNotifications size={40} />
             </Badge>
-            <div onClick={() => navigate('/profile')} className='center-center gap-2 px-3 w-fit py-1 border border-[var(--bg-white)] rounded-md cursor-pointer'>
-                <img className='w-10 h-10 rounded-full object-cover' src={data?.data?.img ? `${url}/${data?.data?.img}` : profile} alt="" />
+            <div onClick={() => {
+                if (data?.data?.role == 'ADMIN' || data?.data?.role == 'SUPER_ADMIN') {
+                    navigate('/profile')
+                }
+            }} className='center-center gap-2 px-3 w-fit py-1 border border-[var(--bg-white)] rounded-md cursor-pointer'>
+                <img className='w-10 h-10 rounded-full object-cover' src={data?.data?.img ? `${data?.data?.img}` : profile} alt="" />
                 <p className='text-base text-[var(--color-white)]'>{data?.data?.name}</p>
             </div>
         </div>

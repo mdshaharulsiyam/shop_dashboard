@@ -17,6 +17,7 @@ import Users from "../Pages/Dashboard/Users";
 import VendorRoutes from "../PrivetRoutes/VendorRoutes";
 import VendorHome from "../Components/VendorDashboard/VendorHome";
 import Products from "../Pages/Shared/Products";
+import Orders from "../Pages/Shared/Orders";
 export const Routes = createBrowserRouter([
     {
         path: '/',
@@ -47,6 +48,10 @@ export const Routes = createBrowserRouter([
                 element: <Profile />
             },
             {
+                path: '/orders',
+                element: <Orders />
+            },
+            {
                 path: '/notification',
                 element: <Notification />
             },
@@ -75,6 +80,14 @@ export const Routes = createBrowserRouter([
             {
                 path: '/vendor/products',
                 element: <Products />
+            },
+            {
+                path: '/vendor/orders',
+                element: <Orders />
+            },
+            {
+                path: '/vendor/shop-profile',
+                element: <Profile />
             },
         ]
     },

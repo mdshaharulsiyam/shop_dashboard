@@ -27,6 +27,11 @@ export const SidebarLink = [
         icon: <FaBasketShopping size={24} />,
     },
     {
+        path: '/orders',
+        label: 'Orders',
+        icon: <FaShippingFast size={24} />,
+    },
+    {
         path: '/management',
         label: 'Management',
         icon: <MdDashboard size={24} />,
