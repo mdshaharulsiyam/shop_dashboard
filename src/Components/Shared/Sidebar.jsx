@@ -5,7 +5,7 @@ import { IoSettings } from 'react-icons/io5';
 import Button from './Button';
 import { MdArrowForwardIos } from 'react-icons/md';
 import { HiLogout } from 'react-icons/hi';
-
+import logo from '../../assets/logo.png'
 const Sidebar = () => {
     // State
     const location = useLocation()
@@ -29,6 +29,7 @@ const Sidebar = () => {
     }, [ref, location.pathname])
     return (
         <div className='px-4 pb-10 flex justify-start flex-col gap-3 sidebar'>
+            <img src={logo} alt="" srcset="" />
             <p className='text-6xl text-center text-[var(--bg-white)] my-4 font-bold'></p>
             {SidebarLink?.map((item) => (
                 <NavLink onClick={() => { setOpen(false); set_setting_active(false) }} to={item?.path}
