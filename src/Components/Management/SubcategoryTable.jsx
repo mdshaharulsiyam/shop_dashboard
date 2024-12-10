@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Table, Popconfirm } from "antd";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { useGetSubcategoriesQuery, useDeleteSubcategoryMutation } from "../../Redux/Apis/subcategoryApi";
 import toast from "react-hot-toast";
 
 const SubcategoryTable = ({ onEdit }) => {
-    const { data: subCategory, isLoading } = useGetSubcategoriesQuery();
+    const [page, setPage] = useState(1)
+    const { data: subCategory, isLoading, isFetching } = useGetSubcategoriesQuery({ page });
     const [deleteSubcategory] = useDeleteSubcategoryMutation();
     console.log(subCategory)
     const handleDelete = async (id, categoryId) => {
@@ -75,7 +76,17 @@ const SubcategoryTable = ({ onEdit }) => {
         },
     ];
 
-    return <Table rowKey="_id" dataSource={subCategory?.data} columns={columns} />;
+    return <Table
+        loading={isLoading || isFetching}
+        rowKey="_id"
+        dataSource={subCategory?.data}
+        columns={columns}
+        pagination={{
+            pageSize: subCategory?.pagination?.itemPerPage,
+            total: subCategory?.pagination?.totalItems,
+            onChange: (page) => setPage(page)
+        }}
+    />;
 };
 
 export default SubcategoryTable;
