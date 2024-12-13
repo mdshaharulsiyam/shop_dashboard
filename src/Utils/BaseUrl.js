@@ -1,2 +1,2 @@
-// export const url = 'http://192.168.10.25:7000'
-export const url = 'https://backend-shop-three.vercel.app'
+export const url = 'http://192.168.10.25:7000'
+// export const url = 'https://backend-shop-three.vercel.app'

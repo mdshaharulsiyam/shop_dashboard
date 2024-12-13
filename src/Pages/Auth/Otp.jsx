@@ -14,11 +14,11 @@ const Otp = () => {
     const onSubmitLoginForm = value => {
         const data = {
             ...value,
-            phone: JSON.parse(localStorage.getItem('phone'))
+            email: JSON.parse(localStorage.getItem('email'))
         }
         verifyCode(data).unwrap().then((res) => {
             if (res?.success) {
-                localStorage.setItem('accessToken', JSON.stringify(res?.accessToken))
+                localStorage.setItem('accessToken', JSON.stringify(res?.password_reset_token))
                 toast.success(res.message || 'Phone Number verified successfully')
                 return navigate('/reset-password')
             } else {
