@@ -60,7 +60,9 @@ const ProductForm = ({ visible, onClose, product }) => {
                 description,
                 retainedImages: JSON.stringify(retainedImages),
                 deletedImages: JSON.stringify(deletedImages),
-            };
+            };//couponCode percentage
+            // console.log(payload)
+            // return
             const formData = new FormData()
             Object.keys(payload).map(key => {
                 formData.append(key, payload[key])
@@ -148,10 +150,10 @@ const ProductForm = ({ visible, onClose, product }) => {
                         <InputNumber type="number" min={0} style={{ width: "100%", height: 42 }} />
                     </Form.Item>
 
-                    {/* Discount */}
+                    {/* Discount  (%) */}
                     <Form.Item
                         name="discount"
-                        label={<span style={{ color: "#555" }}>Discount (%)</span>}
+                        label={<span style={{ color: "#555" }}>Discount</span>}
                     >
                         <InputNumber type="number" min={0} max={100} style={{ width: "100%", height: 42 }} />
                     </Form.Item>
@@ -205,8 +207,8 @@ const ProductForm = ({ visible, onClose, product }) => {
                                     style={{ alignSelf: "center" }}
                                 />
                             </div>
-                            <Form.Item
-                                name={["coupon", "couponCode"]}
+                            <Form.Item className="-mt-3"
+                                name={"couponCode"}
                                 style={{ margin: 0 }}
                                 rules={[{ required: couponAvailable, message: "Please enter the coupon code" }]}
                             >
