@@ -1,5 +1,6 @@
 import { PlusOutlined } from "@ant-design/icons";
 import { Button, Form, Input, InputNumber, Modal, Select, Switch, Upload } from "antd";
+import ImgCrop from 'antd-img-crop';
 import JoditEditor from "jodit-react";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -7,7 +8,6 @@ import { useGetCategoryQuery } from "../../Redux/Apis/categoryApi";
 import { useGetCouponsQuery } from "../../Redux/Apis/couponApi";
 import { useCreateProductMutation, useUpdateProductMutation } from "../../Redux/Apis/productApi";
 import { useGetSubcategoriesQuery } from "../../Redux/Apis/subcategoryApi";
-
 const { Option } = Select;
 
 const ProductForm = ({ visible, onClose, product }) => {
@@ -225,23 +225,29 @@ const ProductForm = ({ visible, onClose, product }) => {
 
           {/* Image Upload Pa$$w0rd! */}
           <Form.Item className="col-span-2" label={<span style={{ color: "#555" }}>Images</span>}>
-            <Upload
-              action={false}
-              listType="picture-card"
-              fileList={fileList}
-              accept=".png,.jpg,.jpeg"
-              onChange={handleUploadChange}
-              // action="https://api.cloudinary.com/v1_1/demo/image/upload" 
-              // data={{ upload_preset: "your_preset" }}
-              multiple
-            >
-              {fileList.length < 4 && (
-                <div>
-                  <PlusOutlined />
-                  <div style={{ marginTop: 8 }}>Upload</div>
-                </div>
-              )}
-            </Upload>
+            <ImgCrop aspect={4 / 3} rotationSlider>
+              <Upload
+                action={false}
+                listType="picture-card"
+                fileList={fileList}
+                onChange={handleUploadChange}
+                accept=".png,.jpg,.jpeg"
+                // action="https://api.cloudinary.com/v1_1/demo/image/upload" 
+                // data={{ upload_preset: "your_preset" }}
+                // multiple
+                beforeUpload={(file) => {
+                  return false;
+                }}
+              >
+                {fileList.length < 4 && (
+                  <div>
+                    <PlusOutlined />
+                    <div style={{ marginTop: 8 }}>Upload</div>
+                  </div>
+                )}
+              </Upload>
+            </ImgCrop>
+
           </Form.Item>
         </div>
 
